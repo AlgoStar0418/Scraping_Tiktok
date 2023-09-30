@@ -8,17 +8,17 @@ api = TikTokApi()
 def get_trending_tiktok(request):
     # result from body
     try:
-        limit = int(request.GET.get('limit', 10))
+        limit = request.GET.get('limit')
+        if limit is None:
+            return JsonResponse({'error': 'specify limit of the trending videos'}, status=400)
+        limit = int(limit)
         trending = api.trending(count=limit)
-    # Return the trending TikTok data as JSON
         response_data = {
             'trending': trending,
             'total': len(trending),
         }
 
-        return JsonResponse({
-            'data': response_data,
-        }, status=200)
+        return JsonResponse(response_data,status=200)
     except:
         return JsonResponse({
             'error': 'error getting trending videos',
@@ -40,7 +40,7 @@ def get_post_data(request):
         if response.status_code != 200:
             return JsonResponse({'error': 'Invalid author or video_id'}, status=400)
         
-        return JsonResponse({'data' : response.json()}, status=200)
+        return JsonResponse(response.json(), status=200)
     
     except:
         return JsonResponse({'error': 'error getting tiktok data'}, status=500)
@@ -56,7 +56,7 @@ def get_video_data(request):
         
         response = api.get_Video_By_DownloadURL(download_url=download_url)
 
-        return JsonResponse({'data': response})
+        return JsonResponse(response)
 
     except:
         return JsonResponse({

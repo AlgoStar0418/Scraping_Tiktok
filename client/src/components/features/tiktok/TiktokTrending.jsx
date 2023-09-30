@@ -35,8 +35,8 @@ const TiktokTrending = ({ limit, scrap, doScraping }) => {
     </div>
   ) : (
     scrap && (
-      <div className="grid grid-cols-3 gap-4">
-        {data.map((tiktok, index) => (
+      <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {data?.trending?.map((tiktok, index) => (
           <TikTokData key={index} {...tiktok} />
         ))}
       </div>
