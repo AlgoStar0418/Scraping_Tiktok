@@ -10,6 +10,8 @@ import {
 } from "@mui/material";
 import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import GoogleButton from "../../custom/GoogleButton";
+import { GoogleLogin } from "@react-oauth/google";
 
 const LoginForm = () => {
   const login = (e) => {
@@ -24,14 +26,14 @@ const LoginForm = () => {
   return (
     <form
       onSubmit={login}
-      className="shadow-xl rounded-lg gap-7 p-7 flex flex-col items-center bg-white"
+      className="shadow-xl rounded-lg gap-7 p-10 flex flex-col items-center bg-white"
     >
       <img src={logoImage} className="object-contain w-[4rem]" />
       <div className="text-xl font-medium">Welcome</div>
       <div className="text-center text-sm">
         Log in to AI Agent to continue to your dashboard.
       </div>
-      <div className="flex flex-col gap-3 w-full">
+      <div className="flex flex-col gap-4 w-full">
         <TextField
           id="outlined-basic"
           label="Email address"
@@ -86,11 +88,12 @@ const LoginForm = () => {
             Sign up
           </Link>
         </div>
-        {/* <div className="flex items-center gap-5">
+        <div className="flex items-center mb-2 gap-5">
           <hr className="border-gray-300 w-full" />
           <span className="text-xs font-medium">OR</span>
           <hr className="border-gray-300 w-full" />
-        </div> */}
+        </div>
+        <GoogleButton />
       </div>
     </form>
   );

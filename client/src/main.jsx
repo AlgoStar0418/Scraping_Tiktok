@@ -6,12 +6,12 @@ import Auth from "./pages/auth";
 import Notfound from "./pages/Notfound";
 import Dashboard from "./pages/dashboard";
 import { QueryClient, QueryClientProvider } from "react-query";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 const queryClient = new QueryClient();
-
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <QueryClientProvider client={queryClient}>
-    <React.StrictMode>
+  <GoogleOAuthProvider clientId="744685161545-em893prk331fejvl1q7hfal6cpnek7gt.apps.googleusercontent.com">
+    <QueryClientProvider client={queryClient}>
       <Router>
         <Routes>
           <Route path="/auth/*" element={<Auth />} />
@@ -19,6 +19,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="*" element={<Notfound />} />
         </Routes>
       </Router>
-    </React.StrictMode>
-  </QueryClientProvider>
+    </QueryClientProvider>
+  </GoogleOAuthProvider>
 );
