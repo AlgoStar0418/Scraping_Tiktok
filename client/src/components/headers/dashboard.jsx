@@ -5,6 +5,8 @@ import { IoSettingsSharp } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { Dropdown, Space } from "antd";
 import { Link } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { User } from "../../lib/atom";
 
 const items = [
   {
@@ -23,6 +25,7 @@ const items = [
 ];
 
 const DashboardHeader = () => {
+  const user = useRecoilValue(User)
   return (
     <div className="sticky top-0 bg-white shadow-md w-full">
       <div className="flex items-center max-w-[80rem] mx-auto py-3 px-5 justify-between">
@@ -35,7 +38,7 @@ const DashboardHeader = () => {
           <div className="cursor-pointer">
             <Space>
               <AiOutlineUser />
-              <div>Admin</div>
+              <div>{user.username}</div>
               <AiFillCaretDown size={20} />
             </Space>
           </div>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import logoImage from "../../../assets/logo.png";
 import {
   FormControl,
+  FormHelperText,
   IconButton,
   InputAdornment,
   InputLabel,
@@ -9,23 +10,65 @@ import {
   TextField,
 } from "@mui/material";
 import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleButton from "../../custom/GoogleButton";
 import { GoogleLogin } from "@react-oauth/google";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import toast from "react-hot-toast";
+import AuthService from "../../../services/auth.service";
+// import validations from "../../../lib/validation";
+
+const loginValidation = yup.object({
+  email: yup
+    .string("Enter your email")
+    .email("Enter a valid email")
+    .required("Email is required"),
+  password: yup
+    .string("Enter your password")
+    .min(8, "Password should be of minimum 8 characters length")
+    .required("Password is required"),
+});
 
 const LoginForm = () => {
-  const login = (e) => {
-    e.preventDefault();
-  };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const [showPassword, setShowPassword] = useState(false);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const navigate = useNavigate();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: loginValidation,
+    onSubmit: async (values) => {
+      toast.promise(AuthService.login(values), {
+        loading: "Logging in...",
+        success: (data) => {
+          localStorage.setItem("token", data.token);
+          navigate("/dashboard");
+        },
+        error: (err) => {
+          console.log(err.response.data.error);
+          return (
+            <div className="flex gap-2 p-1 flex-col">
+              <div className="text-red-500 font-semibold test-sm">
+                Error occured, While logging in
+              </div>
+              <div>{err.response.data.error}</div>
+            </div>
+          );
+        },
+      });
+    },
+  });
+
   document.title = "Login | AI Agent";
   return (
     <form
-      onSubmit={login}
+      onSubmit={formik.handleSubmit}
       className="shadow-xl rounded-lg gap-7 p-10 flex flex-col items-center bg-white"
     >
       <img src={logoImage} className="object-contain w-[4rem]" />
@@ -40,17 +83,28 @@ const LoginForm = () => {
           className="w-full"
           variant="outlined"
           name="email"
+          value={formik.values.email}
+          onChange={formik.handleChange}
+          onBlur={formik.handleBlur}
+          error={formik.touched.email && Boolean(formik.errors.email)}
+          helperText={formik.touched.email && formik.errors.email}
         />
         <FormControl className="w-full" variant="outlined">
-          <InputLabel htmlFor="outlined-adornment-password">
+          <InputLabel
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            htmlFor="outlined-adornment-password"
+          >
             Password
           </InputLabel>
           <OutlinedInput
             id="outlined-adornment-password"
             name="password"
             type={showPassword ? "text" : "password"}
-            // remove hover effect
-
+            value={formik.values.password}
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            helperText={formik.touched.password && formik.errors.password}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -65,6 +119,14 @@ const LoginForm = () => {
             }
             label="Password"
           />
+          <FormHelperText
+            error={formik.touched.password && Boolean(formik.errors.password)}
+            disabled={
+              formik.touched.password && Boolean(formik.errors.password)
+            }
+          >
+            {formik.touched.password && formik.errors.password}
+          </FormHelperText>
         </FormControl>
         <div className="flex justify-start  mt-1 w-full">
           <Link
