@@ -10,7 +10,7 @@ import {
   TextField,
 } from "@mui/material";
 import { BsFillEyeSlashFill, BsFillEyeFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GoogleButton from "../../custom/GoogleButton";
 import { useFormik } from "formik";
 import Validations from "../../../lib/validation";
@@ -26,6 +26,7 @@ const RegisterForm = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleClickShowConfirmPassword = () =>
     setShowConfirmPassword((show) => !show);
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       fullname: "",
@@ -41,15 +42,15 @@ const RegisterForm = () => {
         success: (data) => {
           localStorage.setItem("token", data.token);
           navigate("/dashboard");
+          return "Registered your account.";
         },
         error: (err) => {
-          console.log(err.response.data.error);
           return (
             <div className="flex gap-2 p-1 flex-col">
               <div className="text-red-500 font-semibold test-sm">
                 Error occured, While registering your account
               </div>
-              {/* <div>{err.response.data.error}</div> */}
+              <div>{err.response.data.error}</div>
             </div>
           );
         },
@@ -146,7 +147,10 @@ const RegisterForm = () => {
         <FormControl className="w-full" variant="outlined">
           <InputLabel
             htmlFor="outlined-password"
-            error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+            error={
+              formik.touched.confirmPassword &&
+              Boolean(formik.errors.confirmPassword)
+            }
           >
             Confirm
           </InputLabel>

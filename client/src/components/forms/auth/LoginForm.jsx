@@ -39,6 +39,7 @@ const LoginForm = () => {
         success: (data) => {
           localStorage.setItem("token", data.token);
           navigate("/dashboard");
+          return "Logged in";
         },
         error: (err) => {
           console.log(err.response.data.error);

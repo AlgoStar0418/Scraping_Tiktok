@@ -17,7 +17,6 @@ class Register(APIView):
                 return Response({'error':  serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
             serializer.save()
-            print(serializer.instance)
             token = create_auth_token(serializer.instance)
             
             return Response({

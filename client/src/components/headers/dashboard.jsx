@@ -4,27 +4,33 @@ import { AiFillCaretDown, AiOutlineUser } from "react-icons/ai";
 import { IoSettingsSharp } from "react-icons/io5";
 import { MdLogout } from "react-icons/md";
 import { Dropdown, Space } from "antd";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { User } from "../../lib/atom";
 
-const items = [
-  {
-    key: "0",
-    label: <Link to="/dashboard/settings">Settings</Link>,
-    icon: <IoSettingsSharp />,
-  },
-  {
-    type: "divider",
-  },
-  {
-    key: "1",
-    label: <div>Logout</div>,
-    icon: <MdLogout />,
-  },
-];
+
 
 const DashboardHeader = () => {
+  const navigate = useNavigate()
+  const items = [
+    {
+      key: "0",
+      label: <Link to="/dashboard/settings">Settings</Link>,
+      icon: <IoSettingsSharp />,
+    },
+    {
+      type: "divider",
+    },
+    {
+      key: "1",
+      label: <div>Logout</div>,
+      icon: <MdLogout />,
+      onClick: () => {
+        localStorage.removeItem('token');
+        navigate('/auth/login')
+      }
+    },
+  ];
   const user = useRecoilValue(User)
   return (
     <div className="sticky top-0 bg-white shadow-md z-50 w-full">

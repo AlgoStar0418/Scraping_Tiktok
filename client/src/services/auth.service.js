@@ -19,6 +19,7 @@ const register = (values) => {
       const response = await api.post("/auth/register", {
         ...values,
       });
+      console.log(response.data);
       resolve(response.data);
     } catch (error) {
       reject(error);
