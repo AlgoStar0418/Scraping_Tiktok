@@ -28,4 +28,9 @@ const registerValidation = yup.object({
     .oneOf([yup.ref("password"), null], "Passwords must match"),
 });
 
-export { loginValidation, registerValidation };
+const Validations = {
+  loginValidation,
+  registerValidation,
+};
+
+export default Validations;

@@ -3,7 +3,11 @@ import api from "../lib/axios";
 const getTrending = (total) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await api.get(`/tiktok/trending?limit=${total}`);
+      const response = await api.get(`/tiktok/trending?limit=${total}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
       resolve(response.data);
     } catch (error) {
       reject(error);
@@ -15,7 +19,12 @@ const getPost = (author, video_id) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await api.get(
-        `/tiktok/post?author=${author}&video_id=${video_id}`
+        `/tiktok/post?author=${author}&video_id=${video_id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       resolve(response.data);
     } catch (error) {
@@ -28,7 +37,12 @@ const getVideo = (download_url) => {
   return new Promise(async (resolve, reject) => {
     try {
       const response = await api.get(
-        `/tiktok/video?download_url=${download_url}`
+        `/tiktok/video?download_url=${download_url}`,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
       );
       resolve(response.data);
     } catch (error) {

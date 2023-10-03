@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'corsheaders',
     'tiktok',
+    'projects',
     'users',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -136,4 +137,4 @@ CORS_ALLOW_ALL_ORIGINS = True
 # ]
 
 APPEND_SLASH = False
-AUTH_USER_MODEL='users.User'
+AUTH_USER_MODEL = 'users.User'

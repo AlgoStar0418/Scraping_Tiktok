@@ -33,6 +33,7 @@ const Dashboard = () => {
       },
     });
   }, []);
+  document.title = "Dashboard | AI Agent";
   return !user ? (
     <div className="w-full h-screen flex items-center justify-center">
       <Oval
@@ -55,7 +56,7 @@ const Dashboard = () => {
         <Routes>
           <Route path="/" element={<ProjectsOverview />} />
           <Route path="/projects" element={<ProjectsOverview />} />
-          <Route path="/projects/*" element={<ProjectView />} />
+          <Route path="/projects/:project_id" element={<ProjectView />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </div>

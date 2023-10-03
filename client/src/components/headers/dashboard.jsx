@@ -27,7 +27,7 @@ const items = [
 const DashboardHeader = () => {
   const user = useRecoilValue(User)
   return (
-    <div className="sticky top-0 bg-white shadow-md w-full">
+    <div className="sticky top-0 bg-white shadow-md z-50 w-full">
       <div className="flex items-center max-w-[80rem] mx-auto py-3 px-5 justify-between">
         <div className="flex items-center gap-5">
           <DashboardLogo />

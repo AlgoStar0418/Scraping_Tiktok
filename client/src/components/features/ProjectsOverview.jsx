@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { Table, Modal } from "antd";
 import { IconButton, TextField } from "@mui/material";
@@ -7,9 +7,18 @@ import { MdDelete, MdEdit } from "react-icons/md";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { PiWarningFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import { useQuery } from "react-query";
+import ProjectService from "../../services/project.service";
+import toast from "react-hot-toast";
 
 const ProjectsOverview = () => {
   const navigate = useNavigate();
+
+  const renderDate = (date) => {
+    let time = new Date(date).toLocaleTimeString();
+    let newDate = new Date(date).toLocaleDateString();
+    return newDate + " " + time;
+  };
 
   const columns = [
     {
@@ -52,12 +61,24 @@ const ProjectsOverview = () => {
       },
     },
     {
+      title: "Description",
+      dataIndex: "description",
+      key: "desc",
+      onCell: (record) => {
+        return {
+          onClick: () => {
+            navigate(`/dashboard/projects/${record.uid}`);
+          },
+        };
+      },
+    },
+    {
       title: "Status",
       dataIndex: "status",
       key: "status",
       render: (status) => (
         <div className="flex items-center gap-1">
-          {status.toLowerCase() === "created" ? (
+          {status.toLowerCase() === "running" ? (
             <BsCheckCircleFill className="text-green-500" />
           ) : status.toLowerCase() === "creating" ? (
             "processing"
@@ -75,22 +96,23 @@ const ProjectsOverview = () => {
         };
       },
     },
-    {
-      title: "Last Used At",
-      dataIndex: "lastUsedAt",
-      key: "lastUsedAt",
-      onCell: (record) => {
-        return {
-          onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
-          },
-        };
-      },
-    },
+    // {
+    //   title: "Last Used At",
+    //   dataIndex: "lastUsedAt",
+    //   key: "lastUsedAt",
+    //   onCell: (record) => {
+    //     return {
+    //       onClick: () => {
+    //         navigate(`/dashboard/projects/${record.uid}`);
+    //       },
+    //     };
+    //   },
+    // },
     {
       title: "Created At",
-      dataIndex: "createdAt",
+      dataIndex: "created_at",
       key: "createdAt",
+      render: (date) => renderDate(date),
       onCell: (record) => {
         return {
           onClick: () => {
@@ -116,18 +138,6 @@ const ProjectsOverview = () => {
     },
   ];
 
-  const data = [
-    {
-      uid: "13232-rewrq343-ras3432",
-      key: "1",
-      name: "Tiktok Video Downloader",
-      type: "Tiktok",
-      status: "Running",
-      lastUsedAt: "2021-10-10 10:10:10",
-      createdAt: "2021-10-10 10:10:10",
-    },
-  ];
-
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -141,6 +151,23 @@ const ProjectsOverview = () => {
   const handleCancel = () => {
     setIsModalOpen(false);
   };
+  const limit = 10;
+  const [page, setPage] = useState(1);
+  const [created, setCreated] = useState(false);
+  const { data, isLoading, isError, error } = useQuery(
+    ["projects", page, created],
+    async () => await ProjectService.getProjects(page, limit),
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  useEffect(() => {
+    if (isError) {
+      toast.error("Error getting your projects");
+    }
+  }, [isError]);
 
   return (
     <div>
@@ -161,16 +188,20 @@ const ProjectsOverview = () => {
       <Modal
         title="Create new Project"
         open={isModalOpen}
-        onOk={handleOk}
+        okButtonProps={{ className: "hidden" }}
+        cancelButtonProps={{ className: "hidden" }}
         onCancel={handleCancel}
-        okButtonProps={{ className: "bg-[#3030cc] text-white" }}
-        okText="Create"
       >
-        <NewProjectForm />
+        <NewProjectForm
+          onCreated={() => setCreated(!created)}
+          handleCancel={handleCancel}
+          handleOk={handleOk}
+        />
       </Modal>
       <Table
         className="mt-10"
-        dataSource={data}
+        dataSource={data?.projects ?? []}
+        loading={isLoading}
         columns={columns}
         onRow={() => {
           return {
@@ -178,8 +209,11 @@ const ProjectsOverview = () => {
           };
         }}
         pagination={{
-          total: 10,
-          pageSize: 10,
+          total: data?.total,
+          pageSize: data?.limit ?? limit,
+          onChange: (page) => {
+            setPage(page);
+          },
         }}
         scroll={{
           x: "max-content",

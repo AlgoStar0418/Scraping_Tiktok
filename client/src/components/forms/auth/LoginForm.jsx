@@ -17,18 +17,8 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import toast from "react-hot-toast";
 import AuthService from "../../../services/auth.service";
+import Validations from "../../../lib/validation";
 // import validations from "../../../lib/validation";
-
-const loginValidation = yup.object({
-  email: yup
-    .string("Enter your email")
-    .email("Enter a valid email")
-    .required("Email is required"),
-  password: yup
-    .string("Enter your password")
-    .min(8, "Password should be of minimum 8 characters length")
-    .required("Password is required"),
-});
 
 const LoginForm = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -42,8 +32,8 @@ const LoginForm = () => {
       email: "",
       password: "",
     },
-    validationSchema: loginValidation,
-    onSubmit: async (values) => {
+    validationSchema: Validations.loginValidation,
+    onSubmit: (values) => {
       toast.promise(AuthService.login(values), {
         loading: "Logging in...",
         success: (data) => {
