@@ -3,22 +3,28 @@ import requests
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-api = TikTokApi()
 from AIagent.middleware.jwt_middleware import validate_jwt_token
+from AIagent.middleware.project_middleware import validate_project
 
-
+api = TikTokApi()
 class Trending(APIView):
     def get(self, request):
         try:
             valid = validate_jwt_token(request)
             if type(valid) is not bool:
                 return Response(valid, status=status.HTTP_401_UNAUTHORIZED)
+            valid = validate_project(request)
+            if type(valid) is not bool:
+                return Response(valid, status=status.HTTP_400_BAD_REQUEST)
 
             limit = request.GET.get('limit')
-            
             if limit is None:
                 return Response({'error': 'specify limit of the trending videos'}, status=400)
-            limit = int(limit)
+            try:
+                limit = int(limit)
+            except ValueError:
+                return Response({'error': 'limit must be an integer'}, status=400)
+ 
             trending = api.trending(count=limit)
             response_data = {
                 'trending': trending,

@@ -2,9 +2,13 @@ from projects.models import Project
 from projects.serializers import ProjectSerializer
 from django.shortcuts import get_object_or_404
 
-def validate_project(request, project_id):
+def validate_project(request):
     try:
-        project = get_object_or_404(Project, project_id)
+        projectId = request.GET.get('project', None)
+        if projectId is None:
+            return {'error': 'Provide project id'}
+        project = get_object_or_404(Project, uid=projectId)
+        print(project)
         request.project = ProjectSerializer(project).data
         return True
     except Exception as e:

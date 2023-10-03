@@ -6,6 +6,7 @@ import { useSearchParams, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import ProjectService from "../../services/project.service";
 import { Oval } from "react-loader-spinner";
+import Notfound from "../../pages/Notfound";
 
 const ProjectView = () => {
   // const project = {
@@ -34,12 +35,7 @@ const ProjectView = () => {
   const searchParams = useParams();
   const projectId = searchParams["project_id"];
 
-  const {
-    data,
-    isLoading,
-    isError,
-    error,
-  } = useQuery(
+  const { data, isLoading, isError, error } = useQuery(
     ["project_id", projectId],
     async () => await ProjectService.getProjectById(projectId),
     {
@@ -49,8 +45,12 @@ const ProjectView = () => {
   );
 
   const renderDate = (date) => {
-    return new Date(date).toLocaleTimeString() + " " + new Date(date).toLocaleDateString()
-  }
+    return (
+      new Date(date).toLocaleTimeString() +
+      " " +
+      new Date(date).toLocaleDateString()
+    );
+  };
 
   return isLoading ? (
     <Oval
@@ -65,6 +65,8 @@ const ProjectView = () => {
       strokeWidth={2}
       strokeWidthSecondary={2}
     />
+  ) : isError ? (
+    <Notfound />
   ) : (
     <div>
       <div className="border p-8 rounded-md ">
@@ -106,7 +108,6 @@ const ProjectView = () => {
             </div>
             <div>{renderDate(data.project.created_at)}</div>
           </div>
-         
         </div>
       </div>
       <button
@@ -127,7 +128,12 @@ const ProjectView = () => {
       >
         <ScrapTiktok handleChangeLimit={handleChangeLimit} />
       </Modal>
-      <TiktokTrending limit={limit} doScraping={doScraping} scrap={scrap} />
+      <TiktokTrending
+        limit={limit}
+        doScraping={doScraping}
+        scrap={scrap}
+        project={projectId}
+      />
     </div>
   );
 };

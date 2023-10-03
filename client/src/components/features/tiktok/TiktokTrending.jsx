@@ -4,10 +4,10 @@ import TikTokService from "../../../services/tiktok.service";
 import { Alert } from "antd";
 import TikTokData from "./TiktokData";
 
-const TiktokTrending = ({ limit, scrap, doScraping }) => {
+const TiktokTrending = ({ limit, scrap, doScraping, project }) => {
   const { data, isLoading, isError, error } = useQuery(
     ["tiktok-trending", scrap, doScraping],
-    () => TikTokService.getTrending(limit),
+    async () => await TikTokService.getTrending(limit, project),
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
@@ -16,7 +16,7 @@ const TiktokTrending = ({ limit, scrap, doScraping }) => {
   );
   return isError ? (
     <div className="mt-7">
-      <Alert message={error.message} className="p-7 font-bold" type="error" />
+      <Alert message={error.message} description={error.response.data.error} className="p-7 font-bold" type="error" />
     </div>
   ) : isLoading ? (
     <div className="w-full h-screen flex items-center justify-center">

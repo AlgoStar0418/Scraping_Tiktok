@@ -61,7 +61,7 @@ class RefreshToken(APIView):
                 payload = jwt.decode(token, 'secret', algorithms=['HS256'])
 
             payload['exp'] = datetime.datetime.utcnow() + \
-                datetime.timedelta(minutes=60)
+                datetime.timedelta(days=7)
             payload['iat'] = datetime.datetime.utcnow()
             token = jwt.encode(payload, 'secret', algorithm='HS256')
             return Response({
@@ -101,12 +101,12 @@ def split_fullname(fullname):
 
 
 def create_auth_token(uid):
+
     payload = {
         'id': str(uid),
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+        'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7),
         'iat': datetime.datetime.utcnow(),
     }
-
     token = jwt.encode(payload, 'secret', algorithm='HS256')
     return token
 
