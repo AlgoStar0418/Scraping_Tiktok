@@ -8,7 +8,6 @@ def validate_project(request):
         if projectId is None:
             return {'error': 'Provide project id'}
         project = get_object_or_404(Project, uid=projectId)
-        print(project)
         request.project = ProjectSerializer(project).data
         return True
     except Exception as e:

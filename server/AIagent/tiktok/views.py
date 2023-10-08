@@ -19,11 +19,11 @@ class Trending(APIView):
 
             limit = request.GET.get('limit')
             if limit is None:
-                return Response({'error': 'specify limit of the trending videos'}, status=400)
+                return Response({'error': 'specify limit of the trending videos'}, status=status.HTTP_400_BAD_REQUEST)
             try:
                 limit = int(limit)
             except ValueError:
-                return Response({'error': 'limit must be an integer'}, status=400)
+                return Response({'error': 'limit must be an integer'}, status=status.HTTP_400_BAD_REQUEST)
  
             trending = api.trending(count=limit)
             response_data = {

@@ -59,7 +59,7 @@ class RefreshToken(APIView):
                 payload = jwt.decode(token, 'secret', algorithms=['HS256'])
             except jwt.ExpiredSignatureError:
                 payload = jwt.decode(token, 'secret', algorithms=['HS256'])
-
+            payload = {}
             payload['exp'] = datetime.datetime.utcnow() + \
                 datetime.timedelta(days=7)
             payload['iat'] = datetime.datetime.utcnow()

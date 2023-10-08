@@ -3,6 +3,12 @@ from django.conf import settings
 from django.contrib.auth.models import AbstractUser
 import uuid
 
+# so we need to migrate users first
+
+# may be migrations is having problems 
+# here there is the solution
+# no need tmp never mind
+# first users
 
 class User(AbstractUser):
     uid = models.UUIDField(
