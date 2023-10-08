@@ -13,9 +13,9 @@ class Trending(APIView):
             valid = validate_jwt_token(request)
             if type(valid) is not bool:
                 return Response(valid, status=status.HTTP_401_UNAUTHORIZED)
-            valid = validate_project(request)
-            if type(valid) is not bool:
-                return Response(valid, status=status.HTTP_400_BAD_REQUEST)
+            # valid = validate_project(request)
+            # if type(valid) is not bool:
+            #     return Response(valid, status=status.HTTP_400_BAD_REQUEST)
 
             limit = request.GET.get('limit')
             if limit is None:
