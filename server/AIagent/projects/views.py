@@ -17,7 +17,7 @@ class Projects(APIView):
             serializer = ProjectSerializer(data={
                 **request.data,
                 'created_by': request.user['uid']
-            })
+            }) # type: ignore
             is_valid = serializer.is_valid()
             if not is_valid:
                 return Response({'error': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
