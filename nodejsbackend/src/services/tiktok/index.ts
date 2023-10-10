@@ -257,9 +257,8 @@ class TikTokApi {
     cookies?: Record<string, string>[];
   } = {}): Promise<void> {
     this.playwright = await import("playwright");
-    if (headless && !override_browser_args) {
+    if (!override_browser_args) {
       override_browser_args = ["--headless=new"];
-      headless = false; // managed by the arg
     }
     this.browser = await this.playwright.firefox.launch({
       headless: headless,

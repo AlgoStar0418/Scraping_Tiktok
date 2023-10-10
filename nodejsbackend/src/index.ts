@@ -19,6 +19,6 @@ const server = http.createServer(app);
 export const api = new TikTokApi();
 server.listen(port, async () => {
   console.log(chalk.green(`Server is listening on port ${port}`));
-  await api.createSessions({ num_sessions: 1, headless: false });
+  await api.createSessions({ num_sessions: 1 });
   console.log(chalk.green(`TikTok sessions created`));
 });
