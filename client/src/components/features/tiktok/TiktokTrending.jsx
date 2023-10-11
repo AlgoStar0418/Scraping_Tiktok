@@ -16,7 +16,12 @@ const TiktokTrending = ({ limit, scrap, doScraping, project }) => {
   );
   return isError ? (
     <div className="mt-7">
-      <Alert message={error.message} description={error.response.data.error} className="p-7 font-bold" type="error" />
+      <Alert
+        message={error.message}
+        description={error.response.data.error}
+        className="p-7 font-bold"
+        type="error"
+      />
     </div>
   ) : isLoading ? (
     <div className="w-full h-screen flex items-center justify-center">
@@ -36,7 +41,7 @@ const TiktokTrending = ({ limit, scrap, doScraping, project }) => {
   ) : (
     scrap && (
       <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data?.trending?.map((tiktok, index) => (
+        {data?.videos?.map((tiktok, index) => (
           <TikTokData key={index} {...tiktok} />
         ))}
       </div>

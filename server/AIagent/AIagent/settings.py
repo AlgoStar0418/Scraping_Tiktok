@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'projects',
     'users',
+    'tiktok',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 ]
