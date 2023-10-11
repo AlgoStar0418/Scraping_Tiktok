@@ -37,7 +37,7 @@ class Trending:
         while found < count:
             params = {
                 "from_page": "fyp",
-                "count": count,
+                "count": count - found,
             }
 
             resp = await Trending.parent.make_request(
