@@ -1,10 +1,11 @@
+import axios from "axios";
 import api from "../lib/axios";
 
 const getTrending = (total, project) => {
   return new Promise(async (resolve, reject) => {
     try {
-      const response = await api.get(
-        `/tiktok/trending?limit=${total}`,
+      const response = await axios.get(
+        `http://localhost:5000/api/tiktok/trending?limit=${total}`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,

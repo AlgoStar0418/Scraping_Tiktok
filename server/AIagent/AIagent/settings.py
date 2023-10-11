@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'corsheaders',
     'projects',
-    'tiktok',
     'users',
     'django.contrib.messages',
     'django.contrib.staticfiles',
