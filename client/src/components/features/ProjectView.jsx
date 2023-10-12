@@ -86,7 +86,7 @@ const ProjectView = () => {
           title: values.title,
           description: values.description,
           image: image,
-          platforms: ["pininterest"],
+          platforms: ["pinterest"],
         };
         const res = await api.post("/posts", data);
         resolve(res.data);

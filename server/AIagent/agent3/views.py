@@ -29,7 +29,6 @@ class SocialMediaPost(APIView):
                 'platforms': platforms,
                 'mediaUrls': [upload_url],
             })
-            print(postResponse)
             return Response({'response': uploadResponse, 'postResponse': postResponse})
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
