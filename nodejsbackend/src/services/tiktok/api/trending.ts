@@ -15,10 +15,12 @@ export class Trending {
   }): Promise<Video[]> {
     let found = 0;
     const videos: Video[] = [];
+
     while (found < count) {
+      const batchSize = Math.min(count - found, 30); // Calculate the batch size, maximum 30 at a time
       const params = {
         from_page: "fyp",
-        count: count,
+        count: batchSize, // Use the batch size for this request
         ...kwargs,
       };
 
@@ -35,15 +37,20 @@ export class Trending {
           "TikTok returned an invalid response."
         );
       }
+
       for (const videoData of resp.itemList || []) {
-        videos.push(new Trending.parent.video({ data: videoData }));
-        found++;
+        let video = new Trending.parent.video({ data: videoData });
+        if (videoData.video.duration <= 120 && videoData.video.duration >= 30) {
+          videos.push(videoData);
+          found++;
+        }
       }
 
-      if (!resp.hasMore) {
+      if (!resp.hasMore || found >= count) {
         break;
       }
     }
+
     return videos;
   }
 }

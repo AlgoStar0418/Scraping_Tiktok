@@ -9,7 +9,7 @@ export const getTrendingVideos = async (req: Request, res: Response) => {
     }
     let limitNumber = parseInt(limit);
     const trending = await api.trending.videos({ count: limitNumber });
-    return res.status(200).json({ trending, total: limit });
+    return res.status(200).json({ trending, total: trending.length });
   } catch (error) {
     return res.status(500).json(error);
   }
