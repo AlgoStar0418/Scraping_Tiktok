@@ -175,7 +175,7 @@ const ProjectView = () => {
           </Form.Item>
         </Form>
       </Modal>
-      {doScraping && !isLoading && scrap && (
+      {!isLoading || scrap && (
         <button
           onClick={() => {
             setOpenProfile(true);

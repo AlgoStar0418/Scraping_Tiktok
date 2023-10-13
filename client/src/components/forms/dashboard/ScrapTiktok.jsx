@@ -17,7 +17,7 @@ const ScrapTiktok = ({ handleChangeLimit }) => {
           },
           {
             min: 1,
-            max: 150,
+            max: 30,
             message: "Limit must be between 1 and 150",
           },
           {
@@ -28,9 +28,9 @@ const ScrapTiktok = ({ handleChangeLimit }) => {
         className="mb-1 w-full"
       >
         <InputNumber
-          min={0}
+          min={1}
           className="w-full"
-          defaultValue={60}
+          defaultValue={10}
           onChange={(value) => {
             handleChangeLimit(value);
           }}
