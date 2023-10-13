@@ -3,7 +3,6 @@ from django.http import JsonResponse
 
 api = TikTokApi()
 
-from TikTokApi import TikTokApi
 
 async def get_trending_videos(request):
     videos = []
