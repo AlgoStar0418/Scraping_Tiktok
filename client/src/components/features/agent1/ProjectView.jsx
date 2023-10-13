@@ -1,4 +1,4 @@
-import { Modal, Upload, Select } from "antd";
+import { Modal, Upload, Select, Form, Input } from "antd";
 import { useState } from "react";
 import ScrapTiktok from "../../forms/dashboard/ScrapTiktok";
 import TiktokTrending from "./tiktok/TiktokTrending";
@@ -7,20 +7,11 @@ import { useQuery } from "react-query";
 import ProjectService from "../../../services/project.service";
 import { Oval } from "react-loader-spinner";
 import Notfound from "../../../pages/Notfound";
-
-const { Dragger } = Upload;
+import { AiOutlinePlus } from "react-icons/ai";
+import logoImage from "../../../assets/logo.png";
+import LogoText from "../../logo/LogoText";
 
 const ProjectView = () => {
-  // const project = {
-  //   uid: "13232-rewrq343-ras3432",
-  //   key: "1",
-  //   name: "Tiktok Video Downloader",
-  //   type: "Tiktok",
-  //   status: "Running",
-  //   desc: "This is a project to download tiktok videos",
-  //   lastUsedAt: "2 days ago",
-  //   createdAt: "4 months ago",
-  // };
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
@@ -53,6 +44,8 @@ const ProjectView = () => {
       new Date(date).toLocaleDateString()
     );
   };
+
+  const [openProfile, setOpenProfile] = useState(false);
 
   return isLoading ? (
     <Oval
@@ -130,7 +123,46 @@ const ProjectView = () => {
       >
         <ScrapTiktok handleChangeLimit={handleChangeLimit} />
       </Modal>
-
+      <Modal
+        open={openProfile}
+        onCancel={() => setOpenProfile(false)}
+        onOk={() => {
+          setOpenProfile(false);
+        }}
+        okButtonProps={{
+          className: "bg-[#3131ec] text-white",
+        }}
+        title="Available Profiles"
+      >
+        <Form
+          layout="vertical"
+          onFinish={(values) => {}}
+          className="mt-6 mb-10 flex flex-col items-center"
+        >
+        <img src={logoImage} className="mb-2 w-[4rem]" />
+        <LogoText />
+          <Form.Item className="mb-5 w-full" label="Name" name="name" rules={[{ required: true }]}>
+            <Input placeholder="Name..." />
+          </Form.Item>
+          <Form.Item className="mb-5 w-full" name="voice" label="Voice" rules={[{ required: true }]}>
+            <Input placeholder="Voice..." />
+          </Form.Item>
+          <Form.Item className="mb-5 w-full" name="year" label="Year" rules={[{ required: true }]}>
+            <Input placeholder="Year..." />
+          </Form.Item>
+          <Form.Item className="mb-5 w-full" name="gender" label="Gender" rules={[{ required: true }]}>
+            <Input placeholder="Gender..." />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <button
+        onClick={() => {
+          setOpenProfile(true);
+        }}
+        className="p-7 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
+      >
+        <AiOutlinePlus size={35} />
+      </button>
       <TiktokTrending
         limit={limit}
         doScraping={doScraping}

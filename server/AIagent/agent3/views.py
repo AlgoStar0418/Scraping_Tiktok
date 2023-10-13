@@ -29,7 +29,6 @@ class SocialMediaPost(APIView):
                 'platforms': platforms,
                 'mediaUrls': [uploadResponse['accessUrl']],
             })
-            print(postResponse)
             if postResponse['status'] == 'error':
                 if 'errors' in postResponse:
                     return Response({'error': postResponse['errors']}, status=status.HTTP_400_BAD_REQUEST)
