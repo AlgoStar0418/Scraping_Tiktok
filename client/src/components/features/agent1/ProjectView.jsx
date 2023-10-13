@@ -139,30 +139,52 @@ const ProjectView = () => {
           onFinish={(values) => {}}
           className="mt-6 mb-10 flex flex-col items-center"
         >
-        <img src={logoImage} className="mb-2 w-[4rem]" />
-        <LogoText />
-          <Form.Item className="mb-5 w-full" label="Name" name="name" rules={[{ required: true }]}>
+          <img src={logoImage} className="mb-2 w-[4rem]" />
+          <LogoText />
+          <Form.Item
+            className="mb-5 w-full"
+            label="Name"
+            name="name"
+            rules={[{ required: true }]}
+          >
             <Input placeholder="Name..." />
           </Form.Item>
-          <Form.Item className="mb-5 w-full" name="voice" label="Voice" rules={[{ required: true }]}>
+          <Form.Item
+            className="mb-5 w-full"
+            name="voice"
+            label="Voice"
+            rules={[{ required: true }]}
+          >
             <Input placeholder="Voice..." />
           </Form.Item>
-          <Form.Item className="mb-5 w-full" name="year" label="Year" rules={[{ required: true }]}>
+          <Form.Item
+            className="mb-5 w-full"
+            name="year"
+            label="Year"
+            rules={[{ required: true }]}
+          >
             <Input placeholder="Year..." />
           </Form.Item>
-          <Form.Item className="mb-5 w-full" name="gender" label="Gender" rules={[{ required: true }]}>
+          <Form.Item
+            className="mb-5 w-full"
+            name="gender"
+            label="Gender"
+            rules={[{ required: true }]}
+          >
             <Input placeholder="Gender..." />
           </Form.Item>
         </Form>
       </Modal>
-      <button
-        onClick={() => {
-          setOpenProfile(true);
-        }}
-        className="p-7 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
-      >
-        <AiOutlinePlus size={35} />
-      </button>
+      {doScraping && !isLoading && scrap && (
+        <button
+          onClick={() => {
+            setOpenProfile(true);
+          }}
+          className="p-7 ml-10 mb-4 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
+        >
+          <AiOutlinePlus size={35} />
+        </button>
+      )}
       <TiktokTrending
         limit={limit}
         doScraping={doScraping}
