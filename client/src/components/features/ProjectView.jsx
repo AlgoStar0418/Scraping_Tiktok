@@ -1,4 +1,4 @@
-import { Form, Modal, Input, Upload, Row, Button } from "antd";
+import { Form, Modal, Input, Upload, Row, Button, Select } from "antd";
 import { useState } from "react";
 import ScrapTiktok from "../forms/dashboard/ScrapTiktok";
 import TiktokTrending from "./tiktok/TiktokTrending";
@@ -80,20 +80,41 @@ const ProjectView = () => {
   const handleSavePost = (values) => {
     return new Promise(async (resolve, reject) => {
       try {
-        const image = await convertToBase64(values.image[0].originFileObj);
-        console.log(image);
-        const data = {
-          title: values.title,
-          description: values.description,
-          image: image,
-          platforms: ["pinterest"],
-        };
-        const res = await api.post("/posts", data);
+        const formData = new FormData();
+        formData.append("title", values.title);
+        formData.append("description", values.description);
+        formData.append("project_id", projectId);
+        formData.append("file", values.file[0].originFileObj);
+        formData.append("platforms", values.platforms);
+        formData.append("file_format", values.file[0].type.split("/")[1]);
+        const res = await api.post("/posts", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
         resolve(res.data);
       } catch (error) {
-        reject(error);
+        reject(error.response.data.error);
       }
     });
+  };
+
+  const renderMessage = (message) => {
+    // error.message might include url if there is url enclose it with anchor tags
+    // but it can have brah brah url brah brah just enclose that particular url
+
+    const regex = /(https?:\/\/[^\s]+)/g;
+    const urls = message.match(regex);
+    if (urls) {
+      urls.forEach((url) => {
+        message = message.replace(
+          url,
+          `<a href="${url}" class="text-[#303080] hover:text-[#4d4dd4]" target="_blank">${url}</a>`
+        );
+      });
+    }
+
+    return message;
   };
 
   return isLoading ? (
@@ -198,14 +219,31 @@ const ProjectView = () => {
           onFinish={async (values) => {
             toast.promise(handleSavePost(values), {
               loading: "Posting...",
-              error: (err) => {
-                return "Error occured while posting";
+              
+              error: (errors) => {
+                return (
+                  <div>
+                    {errors.map((error, index) => (
+                      <div key={index}>
+                        <div>Platform: {error.platform}</div>
+                        <div>
+                          Message:{" "}
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: renderMessage(error.message),
+                            }}
+                          ></span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                );
               },
               success: (data) => {
                 handleClosePostModal();
                 return "Posted successfully";
               },
-            })
+            });
           }}
           className="mt-6 mb-10 flex flex-col items-center"
         >
@@ -240,7 +278,7 @@ const ProjectView = () => {
 
           <Form.Item
             className="mb-4"
-            name="image"
+            name="file"
             rules={[{ required: true }]}
             getValueFromEvent={(e) => {
               if (Array.isArray(e)) return e;
@@ -248,12 +286,12 @@ const ProjectView = () => {
             }}
           >
             <Dragger
-              name="image"
+              name="file"
               multiple={false}
               maxCount={1}
               beforeUpload={() => false}
               listType="picture-card"
-              accept="image/*"
+              accept="video/*,image/*"
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined />
@@ -267,7 +305,65 @@ const ProjectView = () => {
               </p>
             </Dragger>
           </Form.Item>
-          <Row justify="end" className="gap-4">
+          <Form.Item
+            name="platforms"
+            className="w-full"
+            rules={[{ required: true }]}
+          >
+            <Select
+              mode="multiple"
+              allowClear
+              className="w-full"
+              placeholder="Please select"
+              options={[
+                {
+                  value: "pinterest",
+                  label: "Pinterest",
+                },
+                {
+                  value: "instagram",
+                  label: "Instagram",
+                },
+                {
+                  value: "facebook",
+                  label: "Facebook",
+                },
+                {
+                  value: "twitter",
+                  label: "Twitter",
+                },
+                {
+                  value: "linkedin",
+                  label: "Linkedin",
+                },
+                {
+                  value: "tiktok",
+                  label: "Tiktok",
+                },
+                {
+                  value: "youtube",
+                  label: "Youtube",
+                },
+                {
+                  value: "gmb",
+                  label: "Google My Business",
+                },
+                {
+                  value: "reddit",
+                  label: "Reddit",
+                },
+                {
+                  value: "fbg",
+                  label: "Facebook Group",
+                },
+                {
+                  value: "telegram",
+                  label: "Telegram",
+                },
+              ]}
+            ></Select>
+          </Form.Item>
+          <Row justify="end" className="gap-4 w-full">
             <Button>Cancel</Button>
             <Form.Item>
               <Button
