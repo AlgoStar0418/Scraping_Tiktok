@@ -33,7 +33,7 @@ class SocialMediaPost(APIView):
             if postResponse['status'] == 'error':
                 if 'errors' in postResponse:
                     return Response({'error': postResponse['errors']}, status=status.HTTP_400_BAD_REQUEST)
-                return Response({'error': postResponse['message']}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': [postResponse]}, status=status.HTTP_400_BAD_REQUEST)
             return Response({'response': uploadResponse, 'postResponse': postResponse})
         except Exception as e:
             return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

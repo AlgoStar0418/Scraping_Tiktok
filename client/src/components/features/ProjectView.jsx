@@ -109,7 +109,7 @@ const ProjectView = () => {
       urls.forEach((url) => {
         message = message.replace(
           url,
-          `<a href="${url}" class="text-[#303080] hover:text-[#4d4dd4]" target="_blank">${url}</a>`
+          `<a href="${url}" class="text-[blue] hover:text-[blue]" target="_blank">${url}</a>`
         );
       });
     }
@@ -219,15 +219,20 @@ const ProjectView = () => {
           onFinish={async (values) => {
             toast.promise(handleSavePost(values), {
               loading: "Posting...",
-              
+
               error: (errors) => {
                 return (
                   <div>
                     {errors.map((error, index) => (
                       <div key={index}>
-                        <div>Platform: {error.platform}</div>
+                        {error.platform && (
+                          <div>
+                            <span className="text-[#4444d8] font-medium">Platform</span>:{" "}
+                            {error.platform}
+                          </div>
+                        )}
                         <div>
-                          Message:{" "}
+                          <span className="text-[#4444d8] font-medium">Message</span>:{" "}
                           <span
                             dangerouslySetInnerHTML={{
                               __html: renderMessage(error.message),
