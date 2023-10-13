@@ -8,7 +8,7 @@ from typing import Any
 from .utils.upload_file import upload
 from .utils.save_file_locally import save_uploaded_file_locally
 
-social = SocialPost('M2KRRSS-PEEMJDV-NY3MF2A-KQVZ1BQ')
+social = SocialPost('SHX65DV-PGJMCFX-N3DNWMV-XWYRQQ1')
 
 
 class SocialMediaPost(APIView):
