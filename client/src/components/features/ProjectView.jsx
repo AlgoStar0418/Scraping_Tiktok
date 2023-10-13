@@ -227,12 +227,17 @@ const ProjectView = () => {
                       <div key={index}>
                         {error.platform && (
                           <div>
-                            <span className="text-[#4444d8] font-medium">Platform</span>:{" "}
-                            {error.platform}
+                            <span className="text-[#4444d8] font-medium">
+                              Platform
+                            </span>{" "}
+                            : {error.platform}
                           </div>
                         )}
                         <div>
-                          <span className="text-[#4444d8] font-medium">Message</span>:{" "}
+                          <span className="text-[#4444d8] font-medium">
+                            Message
+                          </span>
+                          :{" "}
                           <span
                             dangerouslySetInnerHTML={{
                               __html: renderMessage(error.message),
