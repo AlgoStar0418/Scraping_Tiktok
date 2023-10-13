@@ -23,10 +23,14 @@ def upload(file_name, file_format):
             "Content-Type": json_data["contentType"],
         }
 
+        def configure_url(url):
+            # replace empty spaces with %20
+            return url.replace(" ", "%20")
+
         response = requests.put(
-            json_data["uploadUrl"], headers=headers, data=file_data)
+            configure_url(json_data["uploadUrl"]), headers=headers, data=file_data)
         if response.status_code != 200:
             # throw an error
             return None
-
+        
         return json_data

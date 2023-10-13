@@ -7,6 +7,7 @@ import math
 from typing import Any
 from .utils.upload_file import upload
 from .utils.save_file_locally import save_uploaded_file_locally
+from .utils.delete_local_copy import delete_local_copy
 
 social = SocialPost('SHX65DV-PGJMCFX-N3DNWMV-XWYRQQ1')
 
@@ -22,6 +23,7 @@ class SocialMediaPost(APIView):
             name = f'{title}{math.floor(time.time())}.{file_format}'
             save_uploaded_file_locally(file, name)
             uploadResponse: Any = upload(name, file_format)
+            # delete_local_copy(name)
             if uploadResponse is None:
                 return Response({'error': 'Error uploading file'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             postResponse: Any = social.post({
