@@ -1,14 +1,18 @@
 import React, { useEffect } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate } from "react-router-dom";
 import DashboardHeader from "../components/headers/dashboard";
-import ProjectsOverview from "../components/features/ProjectsOverview";
+import ProjectsOverview from "../components/features/agent1/ProjectsOverview";
 import Notfound from "./Notfound";
-import ProjectView from "../components/features/ProjectView";
+import ProjectView from "../components/features/agent1/ProjectView";
 import toast from "react-hot-toast";
 import AuthService from "../services/auth.service";
 import { useRecoilState } from "recoil";
 import { User } from "../lib/atom";
 import { Oval } from "react-loader-spinner";
+import { Button } from "antd";
+import AllAgents from "./AllAgents";
+import Agent1 from "./Agent1";
+import Agent3 from "./Agent3";
 
 const Dashboard = () => {
   const [user, setUser] = useRecoilState(User);
@@ -54,9 +58,9 @@ const Dashboard = () => {
       <DashboardHeader />
       <div className="max-w-[80rem] mx-auto px-5 mt-10">
         <Routes>
-          <Route path="/" element={<ProjectsOverview />} />
-          <Route path="/projects" element={<ProjectsOverview />} />
-          <Route path="/projects/:project_id" element={<ProjectView />} />
+          <Route path="/" element={<AllAgents />} />
+          <Route path="/agent1/*" element={<Agent1 />}/>
+          <Route path="/agent3" element={<Agent3 />}/>
           <Route path="*" element={<Notfound />} />
         </Routes>
       </div>

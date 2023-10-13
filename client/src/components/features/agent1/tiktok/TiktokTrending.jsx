@@ -1,6 +1,6 @@
 import { useQuery } from "react-query";
 import { Oval } from "react-loader-spinner";
-import TikTokService from "../../../services/tiktok.service";
+import TikTokService from "../../../../services/tiktok.service";
 import { Alert } from "antd";
 import TikTokData from "./TiktokData";
 

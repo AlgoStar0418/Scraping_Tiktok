@@ -91,12 +91,10 @@ class Video:
         """
         i, session = self.parent._get_session(**kwargs)
         proxy = (
-            kwargs.get("proxy") if kwargs.get(
-                "proxy") is not None else session.proxy
+            kwargs.get("proxy") if kwargs.get("proxy") is not None else session.proxy
         )
         if self.url is None:
-            raise TypeError(
-                "To call video.info() you need to set the video's url.")
+            raise TypeError("To call video.info() you need to set the video's url.")
 
         r = requests.get(self.url, headers=session.headers, proxies=proxy)
         if r.status_code != 200:
@@ -195,7 +193,7 @@ class Video:
             self.author = self.parent.user(username=author)
         else:
             self.author = self.parent.user(data=author)
-        self.sound = self.parent.sound(data=data)  # type: ignore
+        self.sound = self.parent.sound(data=data) # type: ignore
 
         self.hashtags = [
             self.parent.hashtag(data=hashtag) for hashtag in data.get("challenges", [])
@@ -235,7 +233,7 @@ class Video:
             resp = await self.parent.make_request(
                 url="https://www.tiktok.com/api/comment/list/",
                 params=params,
-                headers=kwargs.get("headers"),  # type: ignore
+                headers=kwargs.get("headers"), # type: ignore
                 session_index=kwargs.get("session_index"),
             )
 
@@ -283,7 +281,7 @@ class Video:
             resp = await self.parent.make_request(
                 url="https://www.tiktok.com/api/related/item_list/",
                 params=params,
-                headers=kwargs.get("headers"),  # type: ignore
+                headers=kwargs.get("headers"), # type: ignore
                 session_index=kwargs.get("session_index"),
             )
 

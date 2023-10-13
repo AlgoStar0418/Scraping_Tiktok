@@ -2,13 +2,13 @@ import { useEffect, useState } from "react";
 import { IoAdd } from "react-icons/io5";
 import { Table, Modal } from "antd";
 import { IconButton, TextField } from "@mui/material";
-import NewProjectForm from "../forms/dashboard/NewProjectForm";
+import NewProjectForm from "../../forms/dashboard/NewProjectForm";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { PiWarningFill } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
-import ProjectService from "../../services/project.service";
+import ProjectService from "../../../services/project.service";
 import toast from "react-hot-toast";
 
 const ProjectsOverview = () => {
@@ -30,7 +30,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
+            navigate(`/dashboard/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -43,7 +43,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
+            navigate(`/dashboard/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -55,7 +55,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
+            navigate(`/dashboard/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -67,7 +67,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
+            navigate(`/dashboard/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -91,7 +91,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
+            navigate(`/dashboard/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -103,7 +103,7 @@ const ProjectsOverview = () => {
     //   onCell: (record) => {
     //     return {
     //       onClick: () => {
-    //         navigate(`/dashboard/projects/${record.uid}`);
+    //         navigate(`/dashboard/agent1/projects/${record.uid}`);
     //       },
     //     };
     //   },
@@ -116,7 +116,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/projects/${record.uid}`);
+            navigate(`/dashboard/agent1/projects/${record.uid}`);
           },
         };
       },

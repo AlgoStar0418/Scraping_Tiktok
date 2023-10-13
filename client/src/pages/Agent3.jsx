@@ -1,64 +1,13 @@
-import { Form, Modal, Input, Upload, Row, Button, Select } from "antd";
+import { Form, Modal, Input, Select, Row, Button } from "antd";
 import { useState } from "react";
-import ScrapTiktok from "../forms/dashboard/ScrapTiktok";
-import TiktokTrending from "./tiktok/TiktokTrending";
-import { useParams } from "react-router-dom";
-import { useQuery } from "react-query";
-import ProjectService from "../../services/project.service";
-import { Oval } from "react-loader-spinner";
-import Notfound from "../../pages/Notfound";
-import logoImage from "../../assets/logo.png";
-import LogoText from "../logo/LogoText";
-import { InboxOutlined } from "@ant-design/icons";
-import api from "../../lib/axios";
 import toast from "react-hot-toast";
+import LogoText from "../components/logo/LogoText";
+import Dragger from "antd/es/upload/Dragger";
+import logoImage from "../assets/logo.png";
+import { InboxOutlined } from "@ant-design/icons";
+import api from "../lib/axios";
 
-const { Dragger } = Upload;
-
-const ProjectView = () => {
-  // const project = {
-  //   uid: "13232-rewrq343-ras3432",
-  //   key: "1",
-  //   name: "Tiktok Video Downloader",
-  //   type: "Tiktok",
-  //   status: "Running",
-  //   desc: "This is a project to download tiktok videos",
-  //   lastUsedAt: "2 days ago",
-  //   createdAt: "4 months ago",
-  // };
-  const [showModal, setShowModal] = useState(false);
-  const handleCloseModal = () => setShowModal(false);
-  const handleShowModal = () => setShowModal(true);
-  const [limit, setLimit] = useState(60);
-  const handleChangeLimit = (limit) => setLimit(limit);
-  const [scrap, setScrap] = useState(false);
-  const [doScraping, setDoScraping] = useState(false);
-  const handleScraping = () => {
-    if (!scrap) setScrap(true);
-    setDoScraping(!doScraping);
-    handleCloseModal();
-  };
-
-  const searchParams = useParams();
-  const projectId = searchParams["project_id"];
-
-  const { data, isLoading, isError, error } = useQuery(
-    ["project_id", projectId],
-    async () => await ProjectService.getProjectById(projectId),
-    {
-      refetchOnMount: false,
-      refetchOnWindowFocus: false,
-    }
-  );
-
-  const renderDate = (date) => {
-    return (
-      new Date(date).toLocaleTimeString() +
-      " " +
-      new Date(date).toLocaleDateString()
-    );
-  };
-
+const Agent3 = () => {
   const [showPostModal, setShowPostModal] = useState(false);
   const handleShowPostModal = () => {
     setShowPostModal(true);
@@ -67,23 +16,12 @@ const ProjectView = () => {
     setShowPostModal(false);
   };
 
-  const convertToBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      // return file with data:image/png;base64 stuffs
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
   const handleSavePost = (values) => {
     return new Promise(async (resolve, reject) => {
       try {
         const formData = new FormData();
         formData.append("title", values.title);
         formData.append("description", values.description);
-        formData.append("project_id", projectId);
         formData.append("file", values.file[0].originFileObj);
         formData.append("platforms", values.platforms);
         formData.append("file_format", values.file[0].type.split("/")[1]);
@@ -94,6 +32,7 @@ const ProjectView = () => {
         });
         resolve(res.data);
       } catch (error) {
+        console.log(error)
         reject(error.response.data.error);
       }
     });
@@ -116,91 +55,8 @@ const ProjectView = () => {
 
     return message;
   };
-
-  return isLoading ? (
-    <Oval
-      height={80}
-      width={80}
-      color="#4fa94d"
-      wrapperStyle={{}}
-      wrapperClass=""
-      visible={true}
-      ariaLabel="oval-loading"
-      secondaryColor="#4fa94d"
-      strokeWidth={2}
-      strokeWidthSecondary={2}
-    />
-  ) : isError ? (
-    <Notfound />
-  ) : (
-    <div>
-      <div className="border p-8 rounded-md ">
-        <div className="text-lg border-b pb-4 font-bold text-gray-800">
-          General
-        </div>
-        <div className="grid grid-cols-2 mt-4 gap-8 p-2">
-          <div className="flex items-center gap-4">
-            <div className="font-bold text-gray-600 w-[7rem] ">
-              Name:&nbsp;&nbsp;
-            </div>
-            <div>{data.project.name}</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="font-bold text-gray-600 w-[7rem] ">
-              Type:&nbsp;&nbsp;
-            </div>
-            <div>{data.project.type}</div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="font-bold text-gray-600 w-[7rem] ">
-                Status:&nbsp;&nbsp;
-              </div>
-              <div>{data.project.status}</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="flex items-center gap-4">
-              <div className="font-bold text-gray-600 w-[7rem] ">
-                Description:&nbsp;&nbsp;
-              </div>
-              <div>{data.project.description}</div>
-            </div>
-          </div>
-          <div className="flex items-center gap-4">
-            <div className="font-bold text-gray-600 w-[7rem] ">
-              Created:&nbsp;&nbsp;
-            </div>
-            <div>{renderDate(data.project.created_at)}</div>
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-4">
-        <button
-          onClick={handleShowPostModal}
-          className="bg-[green] py-2 px-5 cursor-pointer rounded-md text-white"
-        >
-          Post
-        </button>
-        <button
-          onClick={handleShowModal}
-          className="bg-[#3131ec] block text-white p-2 rounded-md mt-4  ml-auto w-fit"
-        >
-          Scrap Tiktok
-        </button>
-      </div>
-      <Modal
-        open={showModal}
-        title="Scrap Tiktok Trending Videos"
-        onCancel={handleCloseModal}
-        okText="Scrap"
-        okButtonProps={{
-          className: "bg-[#3131ec] text-white",
-        }}
-        onOk={handleScraping}
-      >
-        <ScrapTiktok handleChangeLimit={handleChangeLimit} />
-      </Modal>
+  return (
+    <>
       <Modal
         open={showPostModal}
         onCancel={() => {
@@ -374,7 +230,7 @@ const ProjectView = () => {
             ></Select>
           </Form.Item>
           <Row justify="end" className="gap-4 w-full">
-            <Button>Cancel</Button>
+            <Button onClick={handleClosePostModal}>Cancel</Button>
             <Form.Item>
               <Button
                 type="primary"
@@ -387,14 +243,18 @@ const ProjectView = () => {
           </Row>
         </Form>
       </Modal>
-      <TiktokTrending
-        limit={limit}
-        doScraping={doScraping}
-        scrap={scrap}
-        project={projectId}
-      />
-    </div>
+      <div className="w-full h-screen flex items-center justify-center">
+        <button
+          className="bg-[#3030f3] text-white py-2 px-4 rounded-md"
+          onClick={() => {
+            handleShowPostModal();
+          }}
+        >
+          Post
+        </button>
+      </div>
+    </>
   );
 };
 
-export default ProjectView;
+export default Agent3;
