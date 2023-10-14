@@ -5,4 +5,9 @@ const User = atom({
   default: null,
 });
 
-export { User };
+const Limit = atom({
+  key: "limig",
+  default: 10,
+});
+
+export { User, Limit };

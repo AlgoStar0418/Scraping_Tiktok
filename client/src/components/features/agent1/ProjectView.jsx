@@ -1,8 +1,7 @@
 import { Modal, Upload, Select, Form, Input } from "antd";
 import { useState } from "react";
 import ScrapTiktok from "../../forms/dashboard/ScrapTiktok";
-import TiktokTrending from "./tiktok/TiktokTrending";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import ProjectService from "../../../services/project.service";
 import { Oval } from "react-loader-spinner";
@@ -10,18 +9,18 @@ import Notfound from "../../../pages/Notfound";
 import { AiOutlinePlus } from "react-icons/ai";
 import logoImage from "../../../assets/logo.png";
 import LogoText from "../../logo/LogoText";
+import { useSetRecoilState } from "recoil";
+import { Limit } from "../../../lib/atom";
 
 const ProjectView = () => {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-  const [limit, setLimit] = useState(60);
+  const limit = useSetRecoilState(Limit);
   const handleChangeLimit = (limit) => setLimit(limit);
-  const [scrap, setScrap] = useState(false);
-  const [doScraping, setDoScraping] = useState(false);
+  const navigate  = useNavigate()
   const handleScraping = () => {
-    if (!scrap) setScrap(true);
-    setDoScraping(!doScraping);
+    navigate('/dashboard/agent2')
     handleCloseModal();
   };
 
@@ -175,23 +174,18 @@ const ProjectView = () => {
           </Form.Item>
         </Form>
       </Modal>
-      {!isLoading || scrap && (
-        <button
-          onClick={() => {
-            setOpenProfile(true);
-          }}
-          className="p-7 ml-10 mb-4 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
-        >
-          <AiOutlinePlus size={35} />
-        </button>
-      )}
-      <TiktokTrending
-        limit={limit}
-        doScraping={doScraping}
-        scrap={scrap}
-        project={projectId}
-      />
-    </div>
+      {!isLoading ||
+        (scrap && (
+          <button
+            onClick={() => {
+              setOpenProfile(true);
+            }}
+            className="p-7 ml-10 mb-4 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
+          >
+            <AiOutlinePlus size={35} />
+          </button>
+        ))}
+    </div>  
   );
 };
 

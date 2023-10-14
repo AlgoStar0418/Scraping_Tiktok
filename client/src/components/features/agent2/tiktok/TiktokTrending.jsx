@@ -3,17 +3,18 @@ import { Oval } from "react-loader-spinner";
 import TikTokService from "../../../../services/tiktok.service";
 import { Alert } from "antd";
 import TikTokData from "./TiktokData";
+import { useState } from "react";
 
-const TiktokTrending = ({ limit, scrap, doScraping, project }) => {
+const TiktokTrending = ({ limit, redo }) => {
   const { data, isLoading, isError, error } = useQuery(
-    ["tiktok-trending", scrap, doScraping],
-    async () => await TikTokService.getTrending(limit, project),
+    ["tiktok-trending", limit, redo],
+    async () => await TikTokService.getTrending(limit),
     {
       refetchOnWindowFocus: false,
       refetchOnMount: false,
-      enabled: scrap,
     }
   );
+  const [selected, setSelected] = useState(null);
   return isError ? (
     <div className="mt-7">
       <Alert
@@ -39,13 +40,16 @@ const TiktokTrending = ({ limit, scrap, doScraping, project }) => {
       />
     </div>
   ) : (
-    scrap && (
-      <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
-        {data?.videos?.map((tiktok, index) => (
-          <TikTokData key={index} {...tiktok} />
-        ))}
-      </div>
-    )
+    <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {data?.trending?.map((tiktok, index) => (
+        <TikTokData
+          key={index}
+          onSelect={(id) => setSelected(id)}
+          selected={selected}
+          {...tiktok}
+        />
+      ))}
+    </div>
   );
 };
 

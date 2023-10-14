@@ -9,6 +9,8 @@ import { User } from "../lib/atom";
 import { Oval } from "react-loader-spinner";
 import Agent1 from "./Agent1";
 import Agent3 from "./Agent3";
+import { Button, Tooltip } from "antd";
+import Agent2 from "./Agent2";
 
 const Dashboard = () => {
   const [user, setUser] = useRecoilState(User);
@@ -40,7 +42,7 @@ const Dashboard = () => {
     });
   }, []);
   document.title = "Dashboard | AI Agent";
-  const { "*" : currentAgent } = useParams();
+  let { "*": currentAgent } = useParams();
   const agents = [
     {
       value: "agent1",
@@ -58,6 +60,13 @@ const Dashboard = () => {
       path: "/dashboard/agent3",
     },
   ];
+  if (currentAgent === "") {
+    currentAgent = "agent1";
+  }
+  if (currentAgent.length > 5) {
+    let agentArray = currentAgent.split("/");
+    currentAgent = agentArray[0];
+  }
   return !user ? (
     <div className="w-full h-screen flex items-center justify-center">
       <Oval
@@ -77,20 +86,53 @@ const Dashboard = () => {
     <div>
       <DashboardHeader />
       <div className="max-w-[80rem] mx-auto px-5 mt-10">
-        <div className="flex gap-4">
-          {agents.map((agent, index) => (
-            <Link
-              key={index}
-              to={agent.path}
-              className={` ${currentAgent === agent.value ? "bg-[#5a5aff] text-white" : "border hover:border-[#5a5aff] duration-500 hover:text-[#5a5aff]" }   py-2  font-medium px-4 rounded-md`}
-            >
-              {agent.name}
-            </Link>
-          ))}
+        <div className="flex mb-4 gap-4">
+          {agents.map((agent, index) =>
+            agent.value === "agent2" ? (
+              currentAgent === "agent2" ? (
+                <Link key={index} to={agent.path}>
+                  <Button
+                    className={` ${
+                      currentAgent === agent.value
+                        ? "bg-[#5a5aff] text-white"
+                        : ""
+                    }  `}
+                    size="large"
+                    type={currentAgent === agent.value ? "primary" : "default"}
+                  >
+                    {agent.name}
+                  </Button>
+                </Link>
+              ) : (
+                <Tooltip title="You must first go to Agent 1 and Scrap">
+                  <Button
+                  size="large"
+                  disabled
+                  >{agent.name}</Button>
+                </Tooltip>
+              )
+            ) : (
+              <Link key={index} to={agent.path}>
+                <Button
+                  className={` ${
+                    currentAgent === agent.value
+                      ? "bg-[#5a5aff] text-white"
+                      : ""
+                  }`}
+                  size="large"
+                  type={currentAgent === agent.value ? "primary" : "default"}
+                >
+                  {agent.name}
+                </Button>
+              </Link>
+            )
+          )}
         </div>
+
         <Routes>
           <Route path="/" element={<Agent1 />} />
           <Route path="/agent1/*" element={<Agent1 />} />
+          <Route path="/agent2" element={<Agent2 />} />
           <Route path="/agent3" element={<Agent3 />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
