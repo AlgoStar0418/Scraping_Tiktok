@@ -1,6 +1,5 @@
 import { Button } from "antd";
 import React from "react";
-import { BsCheck } from "react-icons/bs";
 import { CheckOutlined } from "@ant-design/icons";
 
 const TikTokData = ({ selected, onSelect, ...data }) => {
