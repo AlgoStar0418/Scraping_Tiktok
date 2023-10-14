@@ -115,7 +115,7 @@ const TiktokTrending = ({ limit, redo }) => {
         onClick={() => {
           setOpenProfile(true);
         }}
-        className="p-7 ml-10 mb-4 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
+        className="p-7 mb-4 mt-4 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
       >
         <AiOutlinePlus size={35} />
       </button>
