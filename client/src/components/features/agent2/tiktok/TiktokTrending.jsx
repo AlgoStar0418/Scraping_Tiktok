@@ -41,7 +41,7 @@ const TiktokTrending = ({ limit, redo }) => {
     </div>
   ) : (
     <div className="grid  md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {data?.trending?.map((tiktok, index) => (
+      {data?.videos?.map((tiktok, index) => (
         <TikTokData
           key={index}
           onSelect={(id) => setSelected(id)}
