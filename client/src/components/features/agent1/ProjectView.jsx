@@ -16,11 +16,11 @@ const ProjectView = () => {
   const [showModal, setShowModal] = useState(false);
   const handleCloseModal = () => setShowModal(false);
   const handleShowModal = () => setShowModal(true);
-  const limit = useSetRecoilState(Limit);
+  const setLimit = useSetRecoilState(Limit);
   const handleChangeLimit = (limit) => setLimit(limit);
-  const navigate  = useNavigate()
+  const navigate = useNavigate();
   const handleScraping = () => {
-    navigate('/dashboard/agent2')
+    navigate("/dashboard/agent2");
     handleCloseModal();
   };
 
@@ -43,8 +43,6 @@ const ProjectView = () => {
       new Date(date).toLocaleDateString()
     );
   };
-
-  const [openProfile, setOpenProfile] = useState(false);
 
   return isLoading ? (
     <Oval
@@ -122,70 +120,7 @@ const ProjectView = () => {
       >
         <ScrapTiktok handleChangeLimit={handleChangeLimit} />
       </Modal>
-      <Modal
-        open={openProfile}
-        onCancel={() => setOpenProfile(false)}
-        onOk={() => {
-          setOpenProfile(false);
-        }}
-        okButtonProps={{
-          className: "bg-[#3131ec] text-white",
-        }}
-        title="Available Profiles"
-      >
-        <Form
-          layout="vertical"
-          onFinish={(values) => {}}
-          className="mt-6 mb-10 flex flex-col items-center"
-        >
-          <img src={logoImage} className="mb-2 w-[4rem]" />
-          <LogoText />
-          <Form.Item
-            className="mb-5 w-full"
-            label="Name"
-            name="name"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder="Name..." />
-          </Form.Item>
-          <Form.Item
-            className="mb-5 w-full"
-            name="voice"
-            label="Voice"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder="Voice..." />
-          </Form.Item>
-          <Form.Item
-            className="mb-5 w-full"
-            name="year"
-            label="Year"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder="Year..." />
-          </Form.Item>
-          <Form.Item
-            className="mb-5 w-full"
-            name="gender"
-            label="Gender"
-            rules={[{ required: true }]}
-          >
-            <Input placeholder="Gender..." />
-          </Form.Item>
-        </Form>
-      </Modal>
-      {!isLoading ||
-        (scrap && (
-          <button
-            onClick={() => {
-              setOpenProfile(true);
-            }}
-            className="p-7 ml-10 mb-4 cursor-pointer border-2 border-[#2c2c2c] rounded-md w-fit"
-          >
-            <AiOutlinePlus size={35} />
-          </button>
-        ))}
-    </div>  
+    </div>
   );
 };
 

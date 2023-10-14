@@ -10,6 +10,7 @@ const ScrapTiktok = ({ handleChangeLimit }) => {
       <LogoText />
       <Form.Item
         label="Limit"
+        required
         rules={[
           {
             required: true,
