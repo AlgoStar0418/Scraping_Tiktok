@@ -29,9 +29,15 @@ const Dashboard = () => {
         return (
           <div className="flex gap-2 p-1 flex-col">
             <div className="text-red-500 font-semibold test-sm">
-              Error occured, While opening you in
+              Error occured, While opening loading your account
             </div>
-            <div>You'll have to log in again </div>
+            <div>
+              {err.name === "AxiosError" &&
+              err.message === "Network Error" &&
+              err.code === "ERR_NETWORK"
+                ? "Server is not found."
+                : "You'll have to log in again"}{" "}
+            </div>
           </div>
         );
       },
@@ -59,8 +65,8 @@ const Dashboard = () => {
       <div className="max-w-[80rem] mx-auto px-5 mt-10">
         <Routes>
           <Route path="/" element={<AllAgents />} />
-          <Route path="/agent1/*" element={<Agent1 />}/>
-          <Route path="/agent3" element={<Agent3 />}/>
+          <Route path="/agent1/*" element={<Agent1 />} />
+          <Route path="/agent3" element={<Agent3 />} />
           <Route path="*" element={<Notfound />} />
         </Routes>
       </div>
