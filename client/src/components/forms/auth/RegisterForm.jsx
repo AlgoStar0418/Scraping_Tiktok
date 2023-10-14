@@ -45,12 +45,25 @@ const RegisterForm = () => {
           return "Registered your account.";
         },
         error: (err) => {
+          let errorSpread = Object.entries(err.response.data.error);
           return (
             <div className="flex gap-2 p-1 flex-col">
               <div className="text-red-500 font-semibold test-sm">
                 Error occured, While registering your account
               </div>
-              <div>{err.response.data.error}</div>
+              <div className="flex flex-col">
+                {errorSpread.map((e, index) => (
+                  <div key={index} className="flex items-start">
+                    <div className="font-semibold">{e[0]}</div>:
+                    <div >
+                      {e[1].map((error, index) => (
+                        <div key={index}>{error}</div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              {/* <div>{err.response.data.error}</div> */}
             </div>
           );
         },
