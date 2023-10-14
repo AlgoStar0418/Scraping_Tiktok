@@ -42,7 +42,6 @@ const LoginForm = () => {
           return "Logged in";
         },
         error: (err) => {
-          console.log(err.response.data.error);
           return (
             <div className="flex gap-2 p-1 flex-col">
               <div className="text-red-500 font-semibold test-sm">
