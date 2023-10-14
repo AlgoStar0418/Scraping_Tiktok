@@ -1,16 +1,12 @@
 import React, { useEffect } from "react";
-import { Link, Route, Routes, useNavigate } from "react-router-dom";
+import { Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
 import DashboardHeader from "../components/headers/dashboard";
-import ProjectsOverview from "../components/features/agent1/ProjectsOverview";
 import Notfound from "./Notfound";
-import ProjectView from "../components/features/agent1/ProjectView";
 import toast from "react-hot-toast";
 import AuthService from "../services/auth.service";
 import { useRecoilState } from "recoil";
 import { User } from "../lib/atom";
 import { Oval } from "react-loader-spinner";
-import { Button } from "antd";
-import AllAgents from "./AllAgents";
 import Agent1 from "./Agent1";
 import Agent3 from "./Agent3";
 
@@ -44,6 +40,24 @@ const Dashboard = () => {
     });
   }, []);
   document.title = "Dashboard | AI Agent";
+  const { "*" : currentAgent } = useParams();
+  const agents = [
+    {
+      value: "agent1",
+      name: "Agent 1",
+      path: "/dashboard/agent1",
+    },
+    {
+      value: "agent2",
+      name: "Agent 2",
+      path: "/dashboard/agent2",
+    },
+    {
+      value: "agent3",
+      name: "Agent 3",
+      path: "/dashboard/agent3",
+    },
+  ];
   return !user ? (
     <div className="w-full h-screen flex items-center justify-center">
       <Oval
@@ -63,8 +77,19 @@ const Dashboard = () => {
     <div>
       <DashboardHeader />
       <div className="max-w-[80rem] mx-auto px-5 mt-10">
+        <div className="flex gap-4">
+          {agents.map((agent, index) => (
+            <Link
+              key={index}
+              to={agent.path}
+              className={` ${currentAgent === agent.value ? "bg-[#5a5aff] text-white" : "border hover:border-[#5a5aff] duration-500 hover:text-[#5a5aff]" }   py-2  font-medium px-4 rounded-md`}
+            >
+              {agent.name}
+            </Link>
+          ))}
+        </div>
         <Routes>
-          <Route path="/" element={<AllAgents />} />
+          <Route path="/" element={<Agent1 />} />
           <Route path="/agent1/*" element={<Agent1 />} />
           <Route path="/agent3" element={<Agent3 />} />
           <Route path="*" element={<Notfound />} />
