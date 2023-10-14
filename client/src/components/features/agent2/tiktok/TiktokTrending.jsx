@@ -1,7 +1,7 @@
 import { useQuery } from "react-query";
 import { Oval } from "react-loader-spinner";
 import TikTokService from "../../../../services/tiktok.service";
-import { Alert, Form, Input, Modal } from "antd";
+import { Alert, Form, Input, Modal, Select } from "antd";
 import TikTokData from "./TiktokData";
 import { useState } from "react";
 import LogoText from "../../../logo/LogoText";
@@ -92,9 +92,21 @@ const TiktokTrending = ({ limit, redo }) => {
             className="mb-5 w-full"
             name="gender"
             label="Gender"
-            rules={[{ required: true }]}
+            rules={[{ required: true, enum: ["male", "female"] }]}
           >
-            <Input placeholder="Gender..." />
+            <Select
+              placeholder="Select Gender"
+              options={[
+                {
+                  label: "Male",
+                  value: "male",
+                },
+                {
+                  label: "Female",
+                  value: "female",
+                },
+              ]}
+            ></Select>
           </Form.Item>
         </Form>
       </Modal>
