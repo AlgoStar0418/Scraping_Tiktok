@@ -18,7 +18,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <Router>
           <Routes>
             <Route path="/auth/*" element={<Auth />} />
-            <Route path="/dashboard/*" element={<Dashboard />} />
+            <Route path="/*" element={<Dashboard />} />
             <Route path="*" element={<Notfound />} />
           </Routes>
         </Router>

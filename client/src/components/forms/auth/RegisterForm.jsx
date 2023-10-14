@@ -41,7 +41,7 @@ const RegisterForm = () => {
         loading: "Registering your account...",
         success: (data) => {
           localStorage.setItem("token", data.token);
-          navigate("/dashboard");
+          navigate("/");
           return "Registered your account.";
         },
         error: (err) => {

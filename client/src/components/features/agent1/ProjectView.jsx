@@ -20,7 +20,7 @@ const ProjectView = () => {
   const handleChangeLimit = (limit) => setLimit(limit);
   const navigate = useNavigate();
   const handleScraping = () => {
-    navigate("/dashboard/agent2");
+    navigate("/agent2");
     handleCloseModal();
   };
 

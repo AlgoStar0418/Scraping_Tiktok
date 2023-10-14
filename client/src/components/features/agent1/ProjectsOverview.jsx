@@ -30,7 +30,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/agent1/projects/${record.uid}`);
+            navigate(`/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -43,7 +43,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/agent1/projects/${record.uid}`);
+            navigate(`/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -55,7 +55,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/agent1/projects/${record.uid}`);
+            navigate(`/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -67,7 +67,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/agent1/projects/${record.uid}`);
+            navigate(`/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -91,7 +91,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/agent1/projects/${record.uid}`);
+            navigate(`/agent1/projects/${record.uid}`);
           },
         };
       },
@@ -103,7 +103,7 @@ const ProjectsOverview = () => {
     //   onCell: (record) => {
     //     return {
     //       onClick: () => {
-    //         navigate(`/dashboard/agent1/projects/${record.uid}`);
+    //         navigate(`/agent1/projects/${record.uid}`);
     //       },
     //     };
     //   },
@@ -116,7 +116,7 @@ const ProjectsOverview = () => {
       onCell: (record) => {
         return {
           onClick: () => {
-            navigate(`/dashboard/agent1/projects/${record.uid}`);
+            navigate(`/agent1/projects/${record.uid}`);
           },
         };
       },

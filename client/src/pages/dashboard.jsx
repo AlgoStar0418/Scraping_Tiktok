@@ -47,17 +47,17 @@ const Dashboard = () => {
     {
       value: "agent1",
       name: "Agent 1",
-      path: "/dashboard/agent1",
+      path: "/agent1",
     },
     {
       value: "agent2",
       name: "Agent 2",
-      path: "/dashboard/agent2",
+      path: "/agent2",
     },
     {
       value: "agent3",
       name: "Agent 3",
-      path: "/dashboard/agent3",
+      path: "/agent3",
     },
   ];
   if (currentAgent === "") {

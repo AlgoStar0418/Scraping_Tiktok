@@ -15,7 +15,7 @@ const DashboardHeader = () => {
   const items = [
     {
       key: "0",
-      label: <Link to="/dashboard/settings">Settings</Link>,
+      label: <Link to="/settings">Settings</Link>,
       icon: <IoSettingsSharp />,
     },
     {

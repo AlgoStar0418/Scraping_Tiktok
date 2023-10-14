@@ -38,7 +38,7 @@ const LoginForm = () => {
         loading: "Logging in...",
         success: (data) => {
           localStorage.setItem("token", data.token);
-          navigate("/dashboard");
+          navigate("/");
           return "Logged in";
         },
         error: (err) => {
